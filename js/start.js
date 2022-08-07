@@ -1,16 +1,25 @@
-import { minutes, seconds } from "./links.js";
+import { minutes, seconds, btnGroup } from "./links.js";
 import stop from "./stop.js";
 import reset from "./reset.js";
+import wait from "./wait.js";
+
+let startBtn = false;
 
 function start() {
-  const startBtn = document.querySelector("#start");
-  startBtn.addEventListener("click", counter);
+  startBtn = document.querySelector("#start");
+
+  if (startBtn) {
+    startBtn.addEventListener("click", counter);
+  }
 }
 
 function counter() {
   localStorage.setItem("play", 1);
-  this.innerHTML = "Stop";
-  this.id = "stop";
+  let btn = document.createElement("button");
+
+  btn.innerHTML = "Stop";
+  btn.id = "stop";
+  btnGroup.prepend(btn);
 
   let interval = setInterval(function () {
     if (localStorage.getItem("play") == 1) {
@@ -36,8 +45,9 @@ function counter() {
       clearInterval(interval);
     }
   }, 1000);
-
+  this.remove();
   stop();
   reset();
+  wait();
 }
 export default start;
